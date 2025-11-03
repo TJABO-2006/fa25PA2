@@ -60,6 +60,7 @@ struct MinHeap {
             if (smallest == pos) break;
             swap(data[pos], data[smallest]);
             pos = smallest;
+
         }
     }
 };
