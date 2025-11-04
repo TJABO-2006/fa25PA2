@@ -28,12 +28,6 @@ int main() {
     // Step 1: Read file and count letter frequencies
     buildFrequencyTable(freq, "input.txt");
 
-    ifstream inFile("input.txt");
-    string line;                // <-- You must declare this
-    getline(inFile, line);
-    cout << "DEBUG: [" << line << "]" << endl;
-    inFile.close();
-
     // Step 2: Create leaf nodes for each character with nonzero frequency
     int nextFree = createLeafNodes(freq);
 
@@ -95,15 +89,6 @@ int createLeafNodes(int freq[]) {
 
 // Step 3: Build the encoding tree using heap operations
 int buildEncodingTree(int nextFree) {
-    // TODO:
-    // 1. Create a MinHeap object.
-    // 2. Push all leaf node indices into the heap.
-    // 3. While the heap size is greater than 1:
-    //    - Pop two smallest nodes
-    //    - Create a new parent node with combined weight
-    //    - Set left/right pointers
-    //    - Push new parent index back into the heap
-    // 4. Return the index of the last remaining node (root)
 
     // 1. Create a MinHeap object.
     MinHeap heap;
@@ -133,26 +118,22 @@ int buildEncodingTree(int nextFree) {
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
-    // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
 
     if (root < 0) return;
 
     stack<pair<int, string>> st;
-    st.push({root, ""});
+    st.push({root, ""}); // starting with root and empty prefix
 
     while (!st.empty()) {
         auto [node, code] = st.top();
         st.pop();
 
-        // Leaf node
+        // Leaf node: assign the built code to the character
         if (leftArr[node] == -1 && rightArr[node] == -1) {
             char c = charArr[node];
             codes[c - 'a'] = code;
         } else {
-            // push right first so left is processed first
+            // Push right first so left is processed first
             if (rightArr[node] != -1)
                 st.push({rightArr[node], code + "1"});
             if (leftArr[node] != -1)
