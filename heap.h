@@ -19,6 +19,7 @@ struct MinHeap {
         data[size] = idx;
         upheap(size, weightArr);
         size++;
+        cout << "Inserted node: " << idx << " weight: " << weightArr[idx] << endl;
     }
 
     int pop(int weightArr[]) {
@@ -32,6 +33,7 @@ struct MinHeap {
         data[0] = data[size];
         downheap(0, weightArr);
         return minimumIndex;
+        cout << "Removed node: " << minimumIndex << " weight: " << weightArr[minimumIndex] << endl;
     }
 
     void upheap(int pos, int weightArr[]) {

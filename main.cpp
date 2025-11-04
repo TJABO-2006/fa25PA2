@@ -98,7 +98,35 @@ int buildEncodingTree(int nextFree) {
     //    - Set left/right pointers
     //    - Push new parent index back into the heap
     // 4. Return the index of the last remaining node (root)
-    return -1; // placeholder
+
+    // 1. Create a MinHeap object.
+    MinHeap heap;
+
+    // Step 2: push all leaf nodes
+    for (int i = 0; i < nextFree; i++) {
+        heap.push(i, weightArr);
+    }
+
+    // Step 3: combine until one root remains
+    while (heap.size > 1) {
+        int left = heap.pop(weightArr);
+        int right = heap.pop(weightArr);
+
+        int parent = nextFree++;
+        weightArr[parent] = weightArr[left] + weightArr[right];
+        leftArr[parent] = left;
+        rightArr[parent] = right;
+        charArr[parent] = '#'; // non-leaf marker
+
+        cout << "[combine] Left(" << charArr[left] << ", " << weightArr[left] << ") + " << endl;
+        cout << "Right(" << charArr[right] << ", " << weightArr[right] << ") -> " << endl;
+        cout << "Parent(" << parent << ", " << weightArr[parent] << ") << " << endl;
+
+        heap.push(parent, weightArr);
+    }
+
+    // Step 4: Remaining element is the root index
+    return heap.pop(weightArr);
 }
 
 // Step 4: Use an STL stack to generate codes
