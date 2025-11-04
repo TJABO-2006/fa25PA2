@@ -28,6 +28,12 @@ int main() {
     // Step 1: Read file and count letter frequencies
     buildFrequencyTable(freq, "input.txt");
 
+    ifstream inFile("input.txt");
+    string line;                // <-- You must declare this
+    getline(inFile, line);
+    cout << "DEBUG: [" << line << "]" << endl;
+    inFile.close();
+
     // Step 2: Create leaf nodes for each character with nonzero frequency
     int nextFree = createLeafNodes(freq);
 
@@ -117,10 +123,6 @@ int buildEncodingTree(int nextFree) {
         leftArr[parent] = left;
         rightArr[parent] = right;
         charArr[parent] = '#'; // non-leaf marker
-
-        cout << "[combine] Left(" << charArr[left] << ", " << weightArr[left] << ") + " << endl;
-        cout << "Right(" << charArr[right] << ", " << weightArr[right] << ") -> " << endl;
-        cout << "Parent(" << parent << ", " << weightArr[parent] << ") << " << endl;
 
         heap.push(parent, weightArr);
     }
